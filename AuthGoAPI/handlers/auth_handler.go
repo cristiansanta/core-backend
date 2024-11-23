@@ -46,8 +46,8 @@ func (h *AuthHandler) SignIn(c *gin.Context) {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }
-
-    if err := h.authService.ValidateUser(req.Email, req.Password); err != nil {
+    user,err := h.authService.ValidateUser(req.Email, req.Password);
+    if  err != nil {
         c.JSON(http.StatusUnauthorized, gin.H{"error": "Credenciales inválidas"})
         return
     }
@@ -58,7 +58,10 @@ func (h *AuthHandler) SignIn(c *gin.Context) {
         return
     }
 
-    c.JSON(http.StatusOK, dto.JwtResponse{Token: token})
+    c.JSON(http.StatusOK, dto.JwtResponse{
+        Token: token,
+        User_id:user.ID,
+    })
 }
 
 

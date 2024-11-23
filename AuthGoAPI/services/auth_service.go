@@ -39,15 +39,15 @@ func (s *AuthService) CreateUser(name, email, password string) error {
     return nil
 }
 
-func (s *AuthService) ValidateUser(email, password string) error {
+func (s *AuthService) ValidateUser(email, password string) (models.User,error) {
     var user models.User
     if result := s.db.Where("email = ?", email).First(&user); result.Error != nil {
-        return errors.New("invalid credentials")
+        return models.User{},errors.New("invalid credentials")
     }
 
     if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
-        return errors.New("invalid credentials")
+        return models.User{},errors.New("invalid credentials")
     }
 
-    return nil
+    return user,nil
 }

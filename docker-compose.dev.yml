@@ -54,6 +54,25 @@ services:
     networks:
       - ruv-network
 
+
+  api-oracle-service:
+    # env_file: ./API-searchByDocument/.env
+    build:
+      context: ./Api-Oracle-services
+      dockerfile: ../.docker/oracle/Dockerfile
+      # target: dev
+    container_name: api-oracle-service
+    ports:
+      - "8083:8083"
+    # volumes:
+    #   - ./API-searchByDocument:/app
+    
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ruv-network
+
   upload-file-service:
     env_file:
       - ./UploadFile/.env

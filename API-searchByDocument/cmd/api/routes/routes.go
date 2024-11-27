@@ -21,5 +21,6 @@ func RegisterRoutes(e *gin.Engine, db *sql.DB) {
 		routeGroup.GET("/lines/ape/:departamento", func(c *gin.Context) { lines.GetLineaAtencion(c, db) })
 		routeGroup.GET("/lines/sena/:departamento", func(c *gin.Context) { lines_sena.GetLineaAtencion(c, db) })
 		routeGroup.GET("/pert-etnica", func(c *gin.Context) { per_etnica.Etnica(c, db) })
+		routeGroup.GET("/ticket/:numero_documento", func(c *gin.Context) { tickets.GetTickets(c, db) })
 	}
 }

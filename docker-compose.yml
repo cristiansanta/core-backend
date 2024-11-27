@@ -20,21 +20,21 @@ services:
     networks:
       - ruv-network
 
-  # auth-service:
-  #   env_file: ./AuthGoAPI/.env
-  #   build:
-  #     context: ./AuthGoAPI
-  #     dockerfile: ../.docker/auth/Dockerfile
-  #   container_name: auth_service
-  #   ports:
-  #     - "8080:8080"
+  auth-service:
+    env_file: ./AuthGoAPI/.env
+    build:
+      context: ./AuthGoAPI
+      dockerfile: ../.docker/auth/Dockerfile
+    container_name: auth_service
+    ports:
+      - "8080:8080"
 
      
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #   networks:
-  #     - ruv-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ruv-network
 
   search-service:
     env_file: ./API-searchByDocument/.env
@@ -52,23 +52,23 @@ services:
     networks:
       - ruv-network
 
-  # upload-file-service:
-  #   env_file:
-  #     - ./UploadFile/.env
-  #   build:
-  #     context: ./UploadFile
-  #     dockerfile: ../.docker/upload/Dockerfile
-  #   container_name: upload-file-service
-  #   ports:
-  #     - "8081:8081"
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
+  upload-file-service:
+    env_file:
+      - ./UploadFile/.env
+    build:
+      context: ./UploadFile
+      dockerfile: ../.docker/upload/Dockerfile
+    container_name: upload-file-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
     
 
     
-    # networks:
-    #   - ruv-network     
+    networks:
+      - ruv-network     
 
 
 

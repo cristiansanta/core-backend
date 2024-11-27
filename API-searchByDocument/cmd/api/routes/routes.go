@@ -3,6 +3,7 @@ package routes
 import (
 	"SEARCHBYDOCUMENT/cmd/api/handlers/lines"
 	"SEARCHBYDOCUMENT/cmd/api/handlers/lines_sena"
+	"SEARCHBYDOCUMENT/cmd/api/handlers/per_etnica"
 	"SEARCHBYDOCUMENT/cmd/api/handlers/tickets"
 	"SEARCHBYDOCUMENT/cmd/api/handlers/victimas"
 	"database/sql"
@@ -19,5 +20,6 @@ func RegisterRoutes(e *gin.Engine, db *sql.DB) {
 		routeGroup.POST("/ticket", func(c *gin.Context) { tickets.Create(c, db) })
 		routeGroup.GET("/lines/ape/:departamento", func(c *gin.Context) { lines.GetLineaAtencion(c, db) })
 		routeGroup.GET("/lines/sena/:departamento", func(c *gin.Context) { lines_sena.GetLineaAtencion(c, db) })
+		routeGroup.GET("/pert-etnica", func(c *gin.Context) { per_etnica.Etnica(c, db) })
 	}
 }

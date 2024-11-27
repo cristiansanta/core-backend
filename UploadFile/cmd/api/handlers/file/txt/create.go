@@ -54,7 +54,6 @@ func (h Handler) Create(ctx *gin.Context, file *multipart.FileHeader) {
 				mainResponse["message"] = response["error_message"]
 				fmt.Printf("failed save contend in handler SaveContent: %s",response["error"].(error).Error())
 			} else {
-				h.Delete(mainFilePath)
 				fmt.Println("file load in database successfully")
 			}
 

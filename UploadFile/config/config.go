@@ -11,10 +11,12 @@ import (
 var (
 	columns = []string{"ORIGEN", "FUENTE", "PROGRAMA", "ID_PERSONA", "ID_HOGAR", "TIPO_DOCUMENTO", "DOCUMENTO", "PRIMERNOMBRE", "SEGUNDONOMBRE", "PRIMERAPELLIDO", "SEGUNDOAPELLIDO", "FECHANACIMIENTO", "EXPEDICIONDOCUMENTO", "FECHAEXPEDICIONDOCUMENTO", "PERTENENCIAETNICA", "GENERO", "TIPOHECHO", "HECHO", "FECHAOCURRENCIA", "CODDANEMUNICIPIOOCURRENCIA", "ZONAOCURRENCIA", "UBICACIONOCURRENCIA", "PRESUNTOACTOR", "PRESUNTOVICTIMIZANTE", "FECHAREPORTE", "TIPOPOBLACION", "TIPOVICTIMA", "PAIS", "CIUDAD", "CODDANEMUNICIPIORESIDENCIA", "ZONARESIDENCIA", "UBICACIONRESIDENCIA", "DIRECCION", "NUMTELEFONOFIJO", "NUMTELEFONOCELULAR", "EMAIL", "FECHAVALORACION", "ESTADOVICTIMA", "NOMBRECOMPLETO", "IDSINIESTRO", "IDMIJEFE", "TIPODESPLAZAMIENTO", "REGISTRADURIA", "VIGENCIADOCUMENTO", "CONSPERSONA", "RELACION", "CODDANEDECLARACION", "CODDANELLEGADA", "CODIGOHECHO", "DISCAPACIDAD", "DESCRIPCIONDISCAPACIDAD", "FUD_FICHA","AFECTACIONES"}
 	tableName  string = "ruv_victimas"
+	temporaryTable string = "ruv_victimas_temp"
 	fileLocation string = "/app/cmd/uploads/"
 	tabRow int = 53
 	querys = map[string]string{
 		"condition_merge": `tgt."ID_PERSONA" = src."ID_PERSONA" AND tgt."ID_HOGAR" = src."ID_HOGAR" AND tgt."IDSINIESTRO" = src."IDSINIESTRO"`,
+		"truncate": `DELETE FROM public.`+ temporaryTable,
 	}
 )
 
@@ -51,7 +53,7 @@ func InitTxtService(repo postgresql.Repository)*txt.Service{
 		FilterWords: []string{"UNIDAD VICTIMAS","NULL"},
 		Columns: columns,
 		TableName: tableName,
-		TemporaryTable: "ruv_victimas_temp",
+		TemporaryTable: temporaryTable,
 		MainFileName: "main",
 		UploadFile: false,
 		Querys: querys,

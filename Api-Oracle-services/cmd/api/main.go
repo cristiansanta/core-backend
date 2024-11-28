@@ -6,6 +6,7 @@ import (
 
 	"SEARCHBYDOCUMENT/pkg/routes" // Ajustar según el path real de tu proyecto
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/godror/godror" // Importación necesaria para Oracle
 )
@@ -26,6 +27,17 @@ func main() {
 
 	// Inicializar el servidor Gin
 	router := gin.Default()
+
+	 // Configuración CORS 
+	 corsConfig := cors.DefaultConfig()
+	 corsConfig.AllowOrigins = []string{"http://localhost:5173"}
+	 corsConfig.AllowMethods = []string{"GET", "POST"}
+	 corsConfig.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
+	 corsConfig.ExposeHeaders = []string{"Content-Length"}
+	 corsConfig.AllowCredentials = true
+	 corsConfig.MaxAge = 12 * 3600
+ 
+	 router.Use(cors.New(corsConfig))
 
 	// Registrar las rutas
 	routes.InitRoutes(router, db)

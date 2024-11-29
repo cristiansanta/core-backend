@@ -1,0 +1,6 @@
+database:
+  user: "system"
+  password: "123456"
+  connectString: "localhost:1521/XE"
+server:
+  port: 8080

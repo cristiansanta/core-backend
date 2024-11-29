@@ -14,4 +14,5 @@ type SignInRequest struct {
 
 type JwtResponse struct {
     Token string `json:"token"`
+    User_id uint `json:"user_id"`
 }

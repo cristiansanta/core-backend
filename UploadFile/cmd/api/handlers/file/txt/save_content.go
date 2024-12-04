@@ -16,8 +16,9 @@ func (h Handler) SaveContent(mainFilePath string, channel chan<- map[string]inte
 		channel <- response
 		return
 	} else {
-		h.Delete(mainFilePath)
-		if err := h.SaveMainTable(); err != nil{
+		if err := h.Delete(mainFilePath); err != nil {
+			response["error"] = err
+		} else if err := h.SaveMainTable(); err != nil {
 			response["error"] = err
 		}
 		channel <- response

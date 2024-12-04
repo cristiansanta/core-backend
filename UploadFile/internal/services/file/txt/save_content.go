@@ -75,6 +75,7 @@ func (s Service) SaveContent(mainFilePath string) error {
 			// if counter == 2{
 			// 	fmt.Print(rowsInterface)
 			// }
+			// (string(decodeChunk), 53, "UNIDAD VICTIMAS")
 			// wg.Add(1)
 			s.Repo.CopyFrom(s.Columns, rowsInterface, s.TemporaryTable, channel, &wg)
 

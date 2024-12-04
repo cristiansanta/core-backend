@@ -30,6 +30,9 @@
 
 --/************************************************************/
 
+
+
+
 CREATE TABLE IF NOT EXISTS public.ruv_victimas_temp (
 "ID" SERIAL PRIMARY KEY,
 "ORIGEN" varchar(4000) NULL,
@@ -86,6 +89,18 @@ CREATE TABLE IF NOT EXISTS public.ruv_victimas_temp (
 "FUD_FICHA" varchar(1000) NULL,
 "AFECTACIONES" varchar(2000) NULL
 );
+
+--Indices para las siguiente columnas
+
+CREATE INDEX idx_ruv_victimas_temp_persona 
+ON public.ruv_victimas_temp ("ID_PERSONA");
+
+CREATE INDEX idx_ruv_victimas_temp_hogar 
+ON public.ruv_victimas_temp ("ID_HOGAR");
+
+CREATE INDEX idx_ruv_victimas_temp_siniestro 
+ON public.ruv_victimas_temp ("IDSINIESTRO");
+
 
 
 CREATE TABLE IF NOT EXISTS public.ruv_victimas (
@@ -144,6 +159,18 @@ CREATE TABLE IF NOT EXISTS public.ruv_victimas (
 "FUD_FICHA" varchar(1000) NULL,
 "AFECTACIONES" varchar(2000) NULL
 );
+
+--Indices para las siguiente columnas
+
+CREATE INDEX idx_ruv_victimas_persona 
+ON public.ruv_victimas ("ID_PERSONA");
+
+CREATE INDEX idx_ruv_victimas_hogar 
+ON public.ruv_victimas ("ID_HOGAR");
+
+CREATE INDEX idx_ruv_victimas 
+ON public.ruv_victimas ("IDSINIESTRO");
+
 -- CREATE TABLE IF NOT EXISTS users (
 --     id SERIAL PRIMARY KEY,
 --     name TEXT NOT NULL,

@@ -27,10 +27,11 @@ func (s Service) SaveMainTable() error{
 	ON (` + s.Querys["condition_merge"] + `) WHEN MATCHED THEN UPDATE SET ` +setString + ` 
 	WHEN NOT MATCHED THEN INSERT(` + columns + `) VALUES(`+ valuesString + `);`
 
-	fmt.Println(query)
 
 	if err := s.Repo.Upsert(query); err != nil{
 		return fmt.Errorf("error in SaveMainTable: %s",err.Error())
 	}
+
+	fmt.Print("Data copied in main successfully in SaveMainTable")
 	return nil
 }

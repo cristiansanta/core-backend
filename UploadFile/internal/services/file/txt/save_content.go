@@ -55,7 +55,7 @@ func (s Service) SaveContent(mainFilePath string) error {
 			text := leftOver + string(decodeChunk)
 			leftOver = ""
 
-				// Encontrar la última posición de un espacio
+			// Encontrar la última posición de un espacio
 			// lastDelim := strings.LastIndex(text, s.Character)
 			lastDelim := strings.LastIndex(text, "\n")
 
@@ -75,7 +75,6 @@ func (s Service) SaveContent(mainFilePath string) error {
 			// if counter == 2{
 			// 	fmt.Print(rowsInterface)
 			// }
-			// (string(decodeChunk), 53, "UNIDAD VICTIMAS")
 			// wg.Add(1)
 			s.Repo.CopyFrom(s.Columns, rowsInterface, s.TemporaryTable, channel, &wg)
 

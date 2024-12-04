@@ -14,7 +14,7 @@ func (r Repository) CopyFrom(columns []string, values [][]interface{},tableName 
 		"error": nil,
 		"db_connection": r.Connection,
 	}
-	defer wg.Done()
+	// defer wg.Done()
 	//Iniciar una transacción
 	trans, err := r.Connection.Begin(context.Background())
 	if err != nil {
@@ -45,6 +45,6 @@ func (r Repository) CopyFrom(columns []string, values [][]interface{},tableName 
 	}
 
 	fmt.Println("rows copied succesfully in CopyFrom")
-	channel <- response
+	// channel <- response
 
 }

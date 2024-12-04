@@ -12,7 +12,9 @@ func Create(c *gin.Context, db *sql.DB) {
 	var ticket domain.Ticket
 
 	if err := c.ShouldBindJSON(&ticket); err != nil{
+
 		fmt.Printf("Ocurrion un error en Create en la linea 15:%s",err.Error())
+
 		c.JSON(500, gin.H{"error": "Error en los datos de entrada: " + err.Error()})
 		return
 	}

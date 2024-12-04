@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 	"sync"
 
 	// "github.com/jackc/pgx/v5/pgxpool"
@@ -22,7 +23,6 @@ func (s Service) SaveContent(mainFilePath string) error {
 	//mainfile path
 
 	openedFile, err := os.Open(mainFilePath)
-	channel := make(chan map[string]interface{})
 	var wg sync.WaitGroup
 	// var db_connection *pgxpool.Pool
 
@@ -39,32 +39,57 @@ func (s Service) SaveContent(mainFilePath string) error {
 	reader := bufio.NewReader(openedFile)
 	//Tamaño buffer 125mb
 	buffer := make([]byte, 125*1024*1024)
+	leftOver := ""
+	// counter := 1
 
 	for {
 		n, err := reader.Read(buffer)
 		if n > 0 {
+			channel := make(chan map[string]interface{})
+
 			fmt.Println("Linea 40")
 			decodeChunk, _, decodeErr := transform.Bytes(s.Decoder, buffer[:n])
 			if decodeErr != nil {
-				return fmt.Errorf("decoding error :%s",decodeErr.Error())
+				return fmt.Errorf("decoding error :%s", decodeErr.Error())
 			}
-			data := s.ProccessTextToSlice(string(decodeChunk))
+			text := leftOver + string(decodeChunk)
+			leftOver = ""
+
+				// Encontrar la última posición de un espacio
+			// lastDelim := strings.LastIndex(text, s.Character)
+			lastDelim := strings.LastIndex(text, "\n")
+
+			if lastDelim == -1 {
+				lastDelim = len(text) // No hay delimitador, procesar todo
+			}
+
+			// Procesar hasta el último delimitador
+			processedChunk := text[:lastDelim]
+			leftOver = text[lastDelim:]
+			fmt.Print(leftOver)
+
+			data := s.ProccessTextToSlice(string(processedChunk))
 			dataFilter := s.FilterRows(data)
 
 			rowsInterface := s.ToInterfaceSlice(dataFilter)
+			// if counter == 2{
+			// 	fmt.Print(rowsInterface)
+			// }
 			// (string(decodeChunk), 53, "UNIDAD VICTIMAS")
-			wg.Add(1)
-			go s.Repo.CopyFrom(s.Columns, rowsInterface, s.TemporaryTable, channel, &wg)
+			// wg.Add(1)
+			s.Repo.CopyFrom(s.Columns, rowsInterface, s.TemporaryTable, channel, &wg)
 
-			if err := <-channel; err["error"] != nil {
-				return fmt.Errorf("error could not execute copyfrom in SaveContent:%s", err["error"].(error).Error())
-			}
+			// if err := <-channel; err["error"] != nil {
+			// 	return fmt.Errorf("error could not execute copyfrom in SaveContent:%s", err["error"].(error).Error())
+			// }
+			// wg.Wait()
+			// close(channel)
+
 			// else{
 			// 	result := <-channel
 			// 	db_connection = result["db_connection"].(*pgxpool.Pool)
-				
+
 			// }
-			
 
 			// fmt.Println(data)
 		}
@@ -82,11 +107,11 @@ func (s Service) SaveContent(mainFilePath string) error {
 			return fmt.Errorf("could not read file in SaveContent:%s", err.Error())
 		}
 		fmt.Println("Linea 61")
+		// counter += 1
 
 	}
-	wg.Wait()
+
 	// db_connection.Close()
-	close(channel)
 	fmt.Println("rows copied succesfully")
 
 	return nil

@@ -34,6 +34,9 @@ func GetLineaAtencion(c *gin.Context, db *sql.DB) {
 		c.JSON(500, gin.H{"error": "Server internal error"})
 		return
 	}
+
+	defer rows.Close()
+
 	
 	var result domain.LineaAtencion
 	for rows.Next(){

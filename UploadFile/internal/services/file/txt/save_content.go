@@ -24,6 +24,9 @@ func (s Service) SaveContent(mainFilePath string) error {
 
 	openedFile, err := os.Open(mainFilePath)
 	var wg sync.WaitGroup
+	channel := make(chan map[string]interface{})
+
+
 	// var db_connection *pgxpool.Pool
 
 	if err != nil {
@@ -45,8 +48,6 @@ func (s Service) SaveContent(mainFilePath string) error {
 	for {
 		n, err := reader.Read(buffer)
 		if n > 0 {
-			channel := make(chan map[string]interface{})
-
 			fmt.Println("Linea 40")
 			decodeChunk, _, decodeErr := transform.Bytes(s.Decoder, buffer[:n])
 			if decodeErr != nil {
@@ -76,14 +77,12 @@ func (s Service) SaveContent(mainFilePath string) error {
 			// 	fmt.Print(rowsInterface)
 			// }
 			// (string(decodeChunk), 53, "UNIDAD VICTIMAS")
-			// wg.Add(1)
-			s.Repo.CopyFrom(s.Columns, rowsInterface, s.TemporaryTable, channel, &wg)
+			wg.Add(1)
+			go s.Repo.CopyFrom(s.Columns, rowsInterface, s.TemporaryTable, channel, &wg)
 
-			// if err := <-channel; err["error"] != nil {
-			// 	return fmt.Errorf("error could not execute copyfrom in SaveContent:%s", err["error"].(error).Error())
-			// }
-			// wg.Wait()
-			// close(channel)
+			if err := <-channel; err["error"] != nil {
+				return fmt.Errorf("error could not execute copyfrom in SaveContent:%s", err["error"].(error).Error())
+			}
 
 			// else{
 			// 	result := <-channel
@@ -110,6 +109,9 @@ func (s Service) SaveContent(mainFilePath string) error {
 		// counter += 1
 
 	}
+
+	wg.Wait()
+	close(channel)
 
 	// db_connection.Close()
 	fmt.Println("rows copied succesfully")

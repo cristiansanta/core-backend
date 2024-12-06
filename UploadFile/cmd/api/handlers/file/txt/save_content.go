@@ -1,7 +1,10 @@
 package txt
 
+import "fmt"
 
 func (h Handler) SaveContent(mainFilePath string, channel chan<- map[string]interface{}) {
+
+	fmt.Print("Linea 49 en SaveContent")
 
 	// defer wg.Done()
 	err := h.FileService.SaveContent(mainFilePath)

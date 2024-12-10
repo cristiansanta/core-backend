@@ -67,7 +67,7 @@ func (s Service) SaveContent(mainFilePath string) error {
 			// Procesar hasta el último delimitador
 			processedChunk := text[:lastDelim]
 			leftOver = text[lastDelim:]
-			fmt.Print(leftOver)
+			// fmt.Print(leftOver)
 
 			data := s.ProccessTextToSlice(string(processedChunk))
 			dataFilter := s.FilterRows(data)

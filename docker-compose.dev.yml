@@ -36,23 +36,23 @@ services:
   #   networks:
   #     - ruv-network
 
-  search-service:
-    env_file: ./API-searchByDocument/.env
-    build:
-      context: ./API-searchByDocument
-      dockerfile: ../.docker/search/Dockerfile
-      target: dev
-    container_name: search_service
-    ports:
-      - "8082:8082"
-    volumes:
-      - ./API-searchByDocument:/app
+  # search-service:
+  #   env_file: ./API-searchByDocument/.env
+  #   build:
+  #     context: ./API-searchByDocument
+  #     dockerfile: ../.docker/search/Dockerfile
+  #     target: dev
+  #   container_name: search_service
+  #   ports:
+  #     - "8082:8082"
+  #   volumes:
+  #     - ./API-searchByDocument:/app
     
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - ruv-network
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   networks:
+  #     - ruv-network
 
 
   # api-oracle-service:

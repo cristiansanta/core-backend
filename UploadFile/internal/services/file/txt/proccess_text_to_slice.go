@@ -44,21 +44,26 @@ func (s Service) ProccessTextToSlice(text string) [][]string {
 			filterRows = filterRows[lenghtIncompleteArray:] 
 			incompleteArrays = [][]string{} // Vacía el array de incompletos
 		}
+
+		if i == 0 && filterRows[i] == s.Columns[i]{
+			i+=s.TabRow
+			continue
+		}
 		
 		col := filterRows[i:min(i+s.TabRow, len(filterRows))] // Obtener un sub-slice
-		if i == 0{
-			fmt.Printf("Fila de inicio: %s:",filterRows[i:min(i+s.TabRow, len(filterRows))])
-
-		}else if i+ s.TabRow > len(filterRows) {
-			fmt.Printf("Ultima fila: %s:",filterRows[i:min(i+s.TabRow, len(filterRows))])
-		}
-
+		// if i == 0{
+		// 	fmt.Printf("Primera fila: %s",col)
+		// }
 		if len(col) == s.TabRow {
 			doubleArray = append(doubleArray, col)
 		} else if len(col) < s.TabRow {
 			incompleteArrays = append(incompleteArrays, col)
-			fmt.Print(col,i,len(filterRows))
 		}
+
+		// if i + 1 > len(filterRows){
+		// 	fmt.Printf("Ultima fila: %s",col)
+
+		// }
 
 		offset += s.TabRow
 	}

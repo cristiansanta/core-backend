@@ -41,7 +41,7 @@ services:
     build:
       context: ./API-searchByDocument
       dockerfile: ../.docker/search/Dockerfile
-      target: dev
+      target: pro
     container_name: search_service
     ports:
       - "8082:8082"

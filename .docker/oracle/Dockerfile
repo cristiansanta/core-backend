@@ -27,6 +27,7 @@ ENV ORACLE_HOME=/opt/oracle/instantclient_21_16
 # Crear directorio de trabajo
 WORKDIR /app
 
+
 # Copiar el código fuente al contenedor
 COPY . .
 

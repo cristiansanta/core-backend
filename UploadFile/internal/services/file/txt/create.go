@@ -1,6 +1,7 @@
 package txt
 
 import (
+	"fmt"
 	"mime/multipart"
 	// "sync"
 
@@ -57,6 +58,7 @@ func (s *Service) Create(ctx *gin.Context, file *multipart.FileHeader, sizeMainF
 		channel <- response
 		return
 	}else{
+		fmt.Print("Linea 60 en Create")
 		s.UploadFile = true
 		response["upload_file"] = true
 		response["path_file"] = mainFilePath

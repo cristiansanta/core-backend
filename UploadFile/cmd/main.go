@@ -7,6 +7,7 @@ import (
 	// "github.com/gin/cmd/api/handlers/file"
 	"github.com/gin/cmd/api/routes"
 	"github.com/gin/config"
+
 	// "github.com/gin/config"
 	"github.com/gin/internal/repositories/postgresql"
 	"github.com/gin/internal/repositories/postgresql/connection"
@@ -25,6 +26,8 @@ func main() {
 	if err != nil{
 		log.Fatal(err.Error())
 	}
+
+	defer connectPool.Close()
 
 	repo := postgresql.Repository{
 		Connection: connectPool,

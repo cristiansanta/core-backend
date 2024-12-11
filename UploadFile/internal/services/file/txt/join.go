@@ -33,14 +33,6 @@ func (s Service) Join(partFile *multipart.FileHeader, sizeMain int,fileName stri
 
 		valueMap = mapSizeMainFile[fileName]
 	}
-
-	
-	//Initial value to sizeMainFile
-	// if sizeMainFile == 0 {
-	// 	sizeMainFile = sizeMain
-	// }
-	//opoen file if not exist it will create new file
-	
 	file, err := os.OpenFile(mainFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		return false, fmt.Errorf("unable to open file for appending in Join: %s", err.Error())

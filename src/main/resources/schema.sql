@@ -1,36 +1,40 @@
 -- lineas de atencion
-CREATE SEQUENCE IF NOT EXISTS linea_atencion_ape;
-CREATE SEQUENCE IF NOT EXISTS linea_atencion_sena;
-CREATE SEQUENCE IF NOT EXISTS tags_id_seq;
+-- CREATE SEQUENCE IF NOT EXISTS linea_atencion_ape;
+-- CREATE SEQUENCE IF NOT EXISTS linea_atencion_sena;
+-- CREATE SEQUENCE IF NOT EXISTS tags_id_seq;
 
-CREATE TABLE IF NOT EXISTS public."LINEA_ATENCION_APE" (
-    id BIGINT DEFAULT nextval('linea_atencion_ape'::regclass) NOT NULL,
-    departamento varchar(200) NOT NULL,
-    ciudad varchar(200) NOT NULL,
-    contacto varchar(200) NULL,
-    direccion text NULL,
-    horario_atencion varchar(255) NULL,
-    telefono varchar(200) NULL,
-    CONSTRAINT "LINEA_ATENCION_APE_PK" PRIMARY KEY (id)
-);
+-- CREATE TABLE IF NOT EXISTS public."LINEA_ATENCION_APE" (
+--     id BIGINT DEFAULT nextval('linea_atencion_ape'::regclass) NOT NULL,
+--     departamento varchar(200) NOT NULL,
+--     ciudad varchar(200) NOT NULL,
+--     contacto varchar(200) NULL,
+--     direccion text NULL,
+--     horario_atencion varchar(255) NULL,
+--     telefono varchar(200) NULL,
+--     CONSTRAINT "LINEA_ATENCION_APE_PK" PRIMARY KEY (id)
+-- );
 
 
-CREATE TABLE IF NOT EXISTS public."LINEA_ATENCION_SENA" (
-    id BIGINT DEFAULT nextval('linea_atencion_sena'::regclass) NOT NULL,
-    cod_regional int4 NOT NULL,
-    departamento varchar(100) NOT NULL,
-    ciudad varchar(100) NOT NULL,
-    contacto varchar(100) NULL,
-    direccion text NULL,
-    horario_atencion varchar(255) NULL,
-    telefono varchar(50) NULL,
-    nombre_centro varchar(255) NULL,
-    CONSTRAINT "LINEA_ATENCION_SENA_PK" PRIMARY KEY (id)
-);
+-- CREATE TABLE IF NOT EXISTS public."LINEA_ATENCION_SENA" (
+--     id BIGINT DEFAULT nextval('linea_atencion_sena'::regclass) NOT NULL,
+--     cod_regional int4 NOT NULL,
+--     departamento varchar(100) NOT NULL,
+--     ciudad varchar(100) NOT NULL,
+--     contacto varchar(100) NULL,
+--     direccion text NULL,
+--     horario_atencion varchar(255) NULL,
+--     telefono varchar(50) NULL,
+--     nombre_centro varchar(255) NULL,
+--     CONSTRAINT "LINEA_ATENCION_SENA_PK" PRIMARY KEY (id)
+-- );
 
 --/************************************************************/
 
+
+
+
 CREATE TABLE IF NOT EXISTS public.ruv_victimas_temp (
+"ID" SERIAL PRIMARY KEY,
 "ORIGEN" varchar(4000) NULL,
 "FUENTE" varchar(4000) NULL,
 "PROGRAMA" varchar(1000) NULL,
@@ -85,14 +89,27 @@ CREATE TABLE IF NOT EXISTS public.ruv_victimas_temp (
 "FUD_FICHA" varchar(1000) NULL,
 "AFECTACIONES" varchar(2000) NULL
 );
+
+--Indices para las siguiente columnas
+
+CREATE INDEX idx_ruv_victimas_temp_persona 
+ON public.ruv_victimas_temp ("ID_PERSONA");
+
+CREATE INDEX idx_ruv_victimas_temp_hogar 
+ON public.ruv_victimas_temp ("ID_HOGAR");
+
+CREATE INDEX idx_ruv_victimas_temp_siniestro 
+ON public.ruv_victimas_temp ("IDSINIESTRO");
+
 
 
 CREATE TABLE IF NOT EXISTS public.ruv_victimas (
+"ID" SERIAL PRIMARY KEY,
 "ORIGEN" varchar(4000) NULL,
 "FUENTE" varchar(4000) NULL,
 "PROGRAMA" varchar(1000) NULL,
-"ID_PERSONA" varchar(2000) NULL,
-"ID_HOGAR" varchar(1000) NULL,
+"ID_PERSONA" varchar(2000) NULL ,
+"ID_HOGAR" varchar(1000) NULL ,
 "TIPO_DOCUMENTO" varchar(1000) NULL,
 "DOCUMENTO" varchar(1000) NULL,
 "PRIMERNOMBRE" varchar(1000) NULL,
@@ -127,7 +144,7 @@ CREATE TABLE IF NOT EXISTS public.ruv_victimas (
 "FECHAVALORACION" varchar(1000) NULL,
 "ESTADOVICTIMA" varchar(1000) NULL,
 "NOMBRECOMPLETO" varchar(1000) NULL,
-"IDSINIESTRO" varchar(1000) NULL,
+"IDSINIESTRO" varchar(1000) NULL ,
 "IDMIJEFE" varchar(1000) NULL,
 "TIPODESPLAZAMIENTO" varchar(1000) NULL,
 "REGISTRADURIA" varchar(1000) NULL,
@@ -142,27 +159,39 @@ CREATE TABLE IF NOT EXISTS public.ruv_victimas (
 "FUD_FICHA" varchar(1000) NULL,
 "AFECTACIONES" varchar(2000) NULL
 );
-CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    password TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP WITH TIME ZONE
-);
+
+--Indices para las siguiente columnas
+
+CREATE INDEX idx_ruv_victimas_persona 
+ON public.ruv_victimas ("ID_PERSONA");
+
+CREATE INDEX idx_ruv_victimas_hogar 
+ON public.ruv_victimas ("ID_HOGAR");
+
+CREATE INDEX idx_ruv_victimas 
+ON public.ruv_victimas ("IDSINIESTRO");
+
+-- CREATE TABLE IF NOT EXISTS users (
+--     id SERIAL PRIMARY KEY,
+--     name TEXT NOT NULL,
+--     email TEXT NOT NULL,
+--     password TEXT NOT NULL,
+--     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+--     deleted_at TIMESTAMP WITH TIME ZONE
+-- );
 
 
-CREATE TABLE IF NOT EXISTS public.tickets (
-    "ID" INT4 DEFAULT nextval('tags_id_seq'::regclass) NOT NULL,
-    "ID_TICKET" BIGINT NOT NULL,
-    "TITULO" VARCHAR NOT NULL,
-    "CONTENIDO" VARCHAR NOT NULL,
-    "PALABRAS_CLAVES" VARCHAR NOT NULL,
-    "NUMERO_DOCUMENTO" VARCHAR NOT NULL,
-    "ID_USUARIO" INT4 NOT NULL,
-    "FECHA_HORA" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL,
-    CONSTRAINT TAGS_PK PRIMARY KEY ("ID")
-);
+-- CREATE TABLE IF NOT EXISTS public.tickets (
+--     "ID" INT4 DEFAULT nextval('tags_id_seq'::regclass) NOT NULL,
+--     "ID_TICKET" BIGINT NOT NULL,
+--     "TITULO" VARCHAR NOT NULL,
+--     "CONTENIDO" VARCHAR NOT NULL,
+--     "PALABRAS_CLAVES" VARCHAR NOT NULL,
+--     "NUMERO_DOCUMENTO" VARCHAR NOT NULL,
+--     "ID_USUARIO" INT4 NOT NULL,
+--     "FECHA_HORA" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL,
+--     CONSTRAINT TAGS_PK PRIMARY KEY ("ID")
+-- );
 
 

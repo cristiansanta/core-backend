@@ -23,8 +23,6 @@ func (r Repository) CopyFrom(columns []string, values [][]interface{},tableName 
 		return
 	}
 
-	//Cerrar la conexion 
-	// defer r.Connection.Close()
 	
 
 	//Copiar datos a la base de datos

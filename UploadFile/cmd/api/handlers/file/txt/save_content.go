@@ -1,7 +1,10 @@
 package txt
 
+import "fmt"
 
 func (h Handler) SaveContent(mainFilePath string, channel chan<- map[string]interface{}) {
+
+	fmt.Print("Linea 49 en SaveContent")
 
 	// defer wg.Done()
 	err := h.FileService.SaveContent(mainFilePath)
@@ -16,8 +19,9 @@ func (h Handler) SaveContent(mainFilePath string, channel chan<- map[string]inte
 		channel <- response
 		return
 	} else {
-		h.Delete(mainFilePath)
-		if err := h.SaveMainTable(); err != nil{
+		if err := h.Delete(mainFilePath); err != nil {
+			response["error"] = err
+		} else if err := h.SaveMainTable(); err != nil {
 			response["error"] = err
 		}
 		channel <- response

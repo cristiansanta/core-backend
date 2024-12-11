@@ -20,39 +20,39 @@ services:
     networks:
       - ruv-network
 
-  # auth-service:
-  #   env_file: ./AuthGoAPI/.env
-  #   build:
-  #     context: ./AuthGoAPI
-  #     dockerfile: ../.docker/auth/Dockerfile
-  #   container_name: auth_service
-  #   ports:
-  #     - "8080:8080"
+  auth-service:
+    env_file: ./AuthGoAPI/.env
+    build:
+      context: ./AuthGoAPI
+      dockerfile: ../.docker/auth/Dockerfile
+    container_name: auth_service
+    ports:
+      - "8080:8080"
 
      
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #   networks:
-  #     - ruv-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ruv-network
 
-  # search-service:
-  #   env_file: ./API-searchByDocument/.env
-  #   build:
-  #     context: ./API-searchByDocument
-  #     dockerfile: ../.docker/search/Dockerfile
-  #     target: dev
-  #   container_name: search_service
-  #   ports:
-  #     - "8082:8082"
-  #   volumes:
-  #     - ./API-searchByDocument:/app
+  search-service:
+    env_file: ./API-searchByDocument/.env
+    build:
+      context: ./API-searchByDocument
+      dockerfile: ../.docker/search/Dockerfile
+      target: dev
+    container_name: search_service
+    ports:
+      - "8082:8082"
+    volumes:
+      - ./API-searchByDocument:/app
     
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #   networks:
-  #     - ruv-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ruv-network
 
 
   # api-oracle-service:

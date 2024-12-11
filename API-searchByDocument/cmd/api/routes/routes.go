@@ -20,6 +20,7 @@ func RegisterRoutes(e *gin.Engine, db *sql.DB) {
 		routeGroup.GET("/:cedula", func(c *gin.Context) { victimas.GetEventByCedula(c, db) })
 		routeGroup.GET("/all", func(c *gin.Context) { victimas.GetAll(c, db) })
 		routeGroup.POST("/ticket", func(c *gin.Context) { tickets.Create(c, db) })
+		routeGroup.GET("/ticket/all", func(c *gin.Context) { tickets.GetAll(c, db) })
 		routeGroup.GET("/lines/ape/:departamento", func(c *gin.Context) { lines.GetLineaAtencion(c, db) })
 		routeGroup.GET("/lines/sena/:departamento", func(c *gin.Context) { lines_sena.GetLineaAtencion(c, db) })
 		routeGroup.GET("/pert-etnica", func(c *gin.Context) { per_etnica.Etnica(c, db) })

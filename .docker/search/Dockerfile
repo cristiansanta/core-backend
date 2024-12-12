@@ -32,6 +32,9 @@ RUN go mod download
 # Compilar la aplicación
 RUN go build -o main ./cmd/api
 
+# Asegurarse de que el binario tenga permisos de ejecución
+RUN chmod +x main
+
 EXPOSE 8082
 
 CMD ["./main"]
